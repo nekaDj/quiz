@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react"
-import style from "../style.css"
+import  "../style.css"
 import Quiz from "./Quiz"
 import { nanoid } from 'nanoid'
 
@@ -49,7 +49,7 @@ export default function AllQuiz(){
         }else{
             console.log(true)
         }
-       
+        
     }, [submitted])
 
 
@@ -77,7 +77,7 @@ export default function AllQuiz(){
                 }
                 : item
         }))
-        var answerFound = false ;
+        // var answerFound = false ;
         // console.log(id)
         // console.log(idChoice)
     }
@@ -85,21 +85,24 @@ export default function AllQuiz(){
     function checkAnswer(){
         let score = 0 
         setSubmitted(true)
-        quizData.map(item=>{
+        quizData.forEach((item)=>{
             let subScore = 0
-            item.answers.map(itemAnswers=>{
+            item.answers.forEach(itemAnswers=>{
+                // console.log(item.question)
                 if(itemAnswers.choosed && itemAnswers.correctAnswer){
                     subScore += 1 
                 }else if(itemAnswers.choosed && !itemAnswers.correctAnswer){
                     subScore -= 1
                 }
+                // console.log(subScore)
             })
-            if(subScore < 0){
+            if(subScore <= 0){
                 subScore = 0
             }
             score = score + subScore
         })
         setScore(score)
+        // console.log(quizData)
     }
     function restart(){
         setSubmitted(false)
@@ -131,6 +134,7 @@ export default function AllQuiz(){
                 {!submitted && <div className="div-btn"><button className="btn" onClick={checkAnswer}>Check Answers</button></div>}
                 {submitted && <div className="div-btn"><h5 className="text-score">Your score is {score}/{quizData.length}</h5> <button className="btn" onClick={restart}>Play again</button> </div>}
             </div>}
+            <div>{error}</div>
         </div>
     )
 }
